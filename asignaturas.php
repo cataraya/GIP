@@ -14,7 +14,7 @@ $PAGE->set_context(get_system_context());
 $PAGE->set_pagelayout('admin');
 $PAGE->set_title($nombrenav);
 $PAGE->set_heading($nombre);
-$PAGE->set_url($CFG->wwwroot.'/local/gim/helloworld2.php');
+$PAGE->set_url($CFG->wwwroot.'/local/Minor/asignaturas.php');
 $PAGE->navbar->add($nombre);
 
 //$strmymoodle = get_string('helloworld');
