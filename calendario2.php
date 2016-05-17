@@ -12,7 +12,7 @@ $nombre = "Planificación Adaptativa"; // nombre del sitio
 $PAGE->set_context(get_system_context());
 $PAGE->set_pagelayout('admin');
 $PAGE->set_title($nombrenav);
-$PAGE->set_heading($nombre);
+echo "<img src='logo.png' style='width:380px;height:110px;'>  <img src='calendar.png'style='width:1060px;height:110px;' align='right'>"; 
 $PAGE->set_url($CFG->wwwroot.'/local/Minor/calendario2.php');
 $PAGE->navbar->add($nombre);
 
@@ -25,322 +25,115 @@ echo $OUTPUT->header();
 include 'templates/header.php';
 // Actual content goes here
 
-echo "Planificación Adaptativa";
-echo "<br>";
 
-echo "Calendario";
-echo "<br>";
-echo "<br>";
-echo "<br>";
-$meselegido = $_POST["mes1"];
+$choosenmonth = $_POST["month"];
+$choosenmonth1= array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
-echo $meselegido;
-
+echo '<br> 
+<table> <tr> <b> <font size=4>';
+echo $choosenmonth1[$choosenmonth-1];
+echo "  ";
+$choosenyear = $_POST["year"];
+$choosenyear1= array("2016","2017","2018");
+echo $choosenyear1[$choosenyear-1];
+echo '</b> </font> &nbsp;&nbsp;<form action="calendario.php" method="post">
+<input type="submit" value="Ver otro mes">
+</form> </tr> </table>';
 
 ?>
-<form action="horario.php" method="post">
-<input type="submit" value="Horario">
-</form>
-<br>
-<form action="asignaturas.php" method="post">
-<input type="submit" value="Asignaturas">
-</form>
-<form action="calendario.php" method="post">
-<br>
-<input type="submit" value="Ver otro mes">
-</form>
 
+<div align="right">
+<table>
+<tr>
+
+<form action="add.php" method="post">
+<input type="submit" name="calendaradd" value="Agregar Evento">
+</form>
+<form action="edit.php" name="calendaredit" method="post">
+<input type="submit" value="Editar Calendario">
+</form>
+</tr>
+</table>
+</div>
 <?php 
 
 
 
-if ($meselegido=="marzo"):
-		
+global $USER;
+global $DB;
+
 ?>
-<html>
-<body>
 
-
-<br>
-
-   <p><b>MARZO</b><p>
-   <br>
 <table style="width:100%" border="1">
   <tr>
     <td>Lunes</td> 
     <td>Martes</td>
-    <td>Miercóles</td>
+    <td>Miércoles</td>
     <td>Jueves</td>
     <td>Viernes</td>
-    <td>Sábado </td>
+    <td>Sábado</td>
   </tr>
-  <tr>
-    <td><br><br><br></td>
-     <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
  
-  </tr>
-    <tr>
-    <td><br><br><br></td> 
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    
-  </tr>
-   
-    <tr>
-    <td><br><br><br></td> 
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
+  <?php  
+    for ($i = 1; $i <= 5; $i++) { 
+    	echo "<tr>";
+    	for ($j = 1; $j <= 6; $j++) {
+        echo "<td>";         
+$userconected= $USER->username;
+$calendar= $DB->get_record('calendar1', array('week'=>$i,'day'=>$j,'user'=>$userconected,'month'=>$choosenmonth, 'year'=>$choosenyear));
+$type= $calendar->typeofevent;
 
-  </tr>
-  
-    <tr>
-    <td><br><br><br></td> 
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
- 
-  </tr>
-  
-    <tr>
-    <td><br><br><br></td> 
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
+if ($type=='1'){
+      echo $calendar->numberofday;  ?><font color="#1F968D"> <?php echo '<br><br>' ; echo $calendar->event; echo '<br>' ?></font> <?php ;
+}
+elseif ($type=='2')
+{
+	echo $calendar->numberofday;
+     ?> <font color='#009900'> <?php echo '<br><br>' ; echo $calendar->event; ?> </font>
+<?php 
+}
+elseif ($type=='3')
+{
+	echo $calendar->numberofday;
+    ?> <font color='#f56d06'> <?php echo '<br><br>' ; echo $calendar->event; ?> </font>
     
-  </tr>
- <?php 
-
-elseif ($meselegido=="abril"):
- 
- 	
- ?>
-
-  <p><b>ABRIL</b><p>   
-   <br>
-<table style="width:100%" border="1">
-  <tr>
-    <td>Lunes</td> 
-    <td>Martes</td>
-    <td>Miercóles</td>
-    <td>Jueves</td>
-    <td>Viernes</td>
-    <td>Sábado </td>
-  </tr>
-  <tr>
-    <td><br><br><br></td>
-     <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
- 
-  </tr>
-    <tr>
-    <td><br><br><br></td> 
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    
-  </tr>
-   
-    <tr>
-    <td><br><br><br></td> 
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
-
-  </tr>
-  
-    <tr>
-    <td><br><br><br></td> 
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
- 
-  </tr>
-  
-    <tr>
-    <td><br><br><br></td> 
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    
-  </tr>
-  
-  <?php 
- 
- 
-
-elseif($meselegido=="mayo"):
-  
-  
-  ?>
-    
-  
-  
-  <p><b>MAYO</b><p>   
-     <br>
-  <table style="width:100%" border="1">
-    <tr>
-      <td>Lunes</td> 
-      <td>Martes</td>
-      <td>Miercóles</td>
-      <td>Jueves</td>
-      <td>Viernes</td>
-      <td>Sábado</td>
-    </tr>
-    <tr>
-      <td><br><br><br></td>
-       <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-   
-    </tr>
-      <tr>
-      <td><br><br><br></td> 
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-    </tr>
-     
-      <tr>
-      <td><br><br><br></td> 
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-  
-    </tr>
-    
-      <tr>
-      <td><br><br><br></td> 
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-   <td> </td>
-    </tr>
-    
-      <tr>
-      <td><br><br><br></td> 
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      
-    </tr>
     <?php 
-
-elseif ($meselegido=="junio"):
- 
- 	
+}
+else 
+	echo "<br><br><br>";
  ?>
-
-  <p><b>JUNIO</b><p>   
-   <br>
-<table style="width:100%" border="1">
-  <tr>
-    <td>Lunes</td> 
-    <td>Martes</td>
-    <td>Miercóles</td>
-    <td>Jueves</td>
-    <td>Viernes</td>
-    <td>Sábado </td>
-  </tr>
-  <tr>
-    <td><br><br><br></td>
-     <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
- 
-  </tr>
-    <tr>
-    <td><br><br><br></td> 
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
+ </td>
+ <?php
+ ;
+            
+ }
+ echo "</tr>";
+    }
     
-  </tr>
-   
-    <tr>
-    <td><br><br><br></td> 
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
-
-  </tr>
-  
-    <tr>
-    <td><br><br><br></td> 
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
- 
-  </tr>
-  
-    <tr>
-    <td><br><br><br></td> 
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    
-  </tr>
-  
-    <?php
-  
-endif
-
-
-  ?>
-  
-
+ ?>
 </table>
+
 <br>
+<br>
+<div align="right">
+<table>
+<tr>
+<form action="horario.php" method="post">
+<input type="submit" value="Horario">
+</form>
+<form action="asignaturas.php" method="post">
+<input type="submit" value="Asignaturas">
+</form>
+
 <form action="index.php" method="post">
 <input type="submit" value="Volver">
 </form>
 </body>
 </html>
-<br>
 
+</tr>
+</table>
+</div>
 
 
 

@@ -13,7 +13,8 @@ $nombre = "Planificación Adaptativa"; // nombre del sitio
 $PAGE->set_context(get_system_context());
 $PAGE->set_pagelayout('admin');
 $PAGE->set_title($nombrenav);
-$PAGE->set_heading($nombre);
+echo "<img src='logo.png' style='width:380px;height:110px;'>  <img src='calendar.png'style='width:1060px;height:110px;' align='right'>"; 
+
 $PAGE->set_url($CFG->wwwroot.'/local/Minor/calendario.php');
 $PAGE->navbar->add($nombre);
 
@@ -26,13 +27,6 @@ echo $OUTPUT->header();
 include 'templates/header.php';
 // Actual content goes here
 
-echo "Planificación Adaptativa";
-echo "<br>";
-
-echo "Calendario";
-echo "<br>";
-echo "<br>";
-echo "<br>";
 
 ?>
 <html>
@@ -49,12 +43,26 @@ echo "<br>";
 </form>
 <br>
 <p>Mes</p>
-   <form name="mes" action="calendario2.php" method="post">
-  <select name="mes1">
-    <option value="marzo">Marzo</option>
-    <option value="abril">Abril</option>
-    <option value="mayo">Mayo</option>
-    <option value="junio">Junio</option>
+   <form name="monthandyear" action="calendario2.php" method="post">
+  <select name="month">
+    <option value="1">Enero</option>
+    <option value="2">Febrero</option>
+    <option value="3">Marzo</option>
+    <option value="4">Abril</option>
+    <option value="5">Mayo</option>
+    <option value="6">Junio</option>
+    <option value="7">Julio</option>
+    <option value="8">Agosto</option>
+    <option value="9">Septiembre</option>
+    <option value="10">Octubre</option>
+    <option value="11">Noviembre</option>
+    <option value="12">Diciembre</option>
+  </select>
+  <br>
+  <select name="year">
+    <option value="1">2016</option>
+    <option value="2">2017</option>
+    <option value="3">2018</option>
   </select>
   <br><br>
   <input type="submit" value="Ver">
