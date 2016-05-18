@@ -6,19 +6,17 @@ require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 
 require_login();
 //Global
-$nombrenav = "Planificación Adaptativa"; // nombre que aparece en la pestaña del navegador
-$nombre = "Planificación Adaptativa"; // nombre del sitio
+$nameav = "Planificación Adaptativa";  // name that appears in the browser tab
+$name = "Planificación Adaptativa"; // name of the website
+
 
 $PAGE->set_context(get_system_context());
 $PAGE->set_pagelayout('admin');
-$PAGE->set_title($nombrenav);
+$PAGE->set_title($nameav);
 echo "<img src='logo.png' style='width:380px;height:110px;'> <img src='addevent.png'style='width:1060px;height:110px;' align='right'>"; 
 
 $PAGE->set_url($CFG->wwwroot.'/local/Minor/calendario.php');
-$PAGE->navbar->add($nombre);
-
-//$strmymoodle = get_string('helloworld');
-
+$PAGE->navbar->add($name);
 
 
 echo $OUTPUT->header();
@@ -43,7 +41,7 @@ $call= $DB->get_records_menu($table, $conditions, $sort, $fields);
 ?>
 <?php
 
-echo 'Actividad: <select name="activitycalendar">';
+echo 'Actividad: <select name="activitycalendar">'; //Choose activity
     for ($i=0; $i<sizeof($call); $i++) {
          echo '<option value="'.$call[$i].'">';
          $call[$i];
