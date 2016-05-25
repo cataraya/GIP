@@ -35,10 +35,19 @@ global $USER; //conetion to moodle user database
 
 
 $userconnected= $USER->username; //$userconnected is the username of the user who is connected 
+
+if ($userconnected=='guest')
+{
+	echo "<br><br><div align='center'> <font size=6 color='red'> Debes iniciar sesión </font> <br><br> <form action='http://localhost:8888/moodle30/login/index.php'><button type='submit'> Iniciar sesión </button></form></div>";
+}
+else 
+{
+
+
 $username= $DB->get_record('user', array('username'=>$userconnected)); //$username gets the fist name of the user who is connected
        //from the table 'user' of Moodle's database 
 
-echo " <font color='#1F968D' size=6 > ¡Hola  $username->firstname !</font><br><br><br> "; //shows a mesaage next to the fist name of the
+echo "<br> <div align= 'right'> <font color='#1F968D' size=4 > ¡Hola  $username->firstname !</font><br><br><br> </div> "; //shows a mesaage next to the fist name of the
 //user connected
 
 ?>
@@ -50,20 +59,22 @@ echo " <font color='#1F968D' size=6 > ¡Hola  $username->firstname !</font><br><
 
 <br>
 
-<div align="right">
-
+<div align="center">
+<table>
+<tr>
 <form action="horario.php" method="post"> <!-- button that redirect to the schedule page -->
 <input type="submit" value="Horario">
 </form>
-<br>
-<br>
+&nbsp;&nbsp;&nbsp;&nbsp;
 <form action="calendario.php" method="post"> <!-- button that redirect to the calendar page -->
 <input type="submit" value="Calendario">
 </form>
-<br>
-<br>
+&nbsp;&nbsp;&nbsp;&nbsp;
 <form action="asignaturas.php" method="post"> <!-- button that redirect to the activity page -->
 <input type="submit" value="Asignaturas">
+</form>
+</tr>
+</table>
 </div>
 </form>
 </body>
@@ -72,7 +83,7 @@ echo " <font color='#1F968D' size=6 > ¡Hola  $username->firstname !</font><br><
 
 
 <?php
-
+}
 echo $OUTPUT->footer();
 
 

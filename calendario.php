@@ -5,6 +5,7 @@
 // The number of lines in front of config file determine the // hierarchy of files.
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 
+
 require_login();
 //Global
 $nameav = "Planificación Adaptativa"; // name that appears in the browser tab
@@ -79,7 +80,6 @@ include 'templates/header.php';
 
 
 <?php
-
 
 echo $OUTPUT->footer();
 

@@ -34,6 +34,7 @@ include 'templates/header.php';
 <tr>
 
 <form action="add.php" method="post"> <!-- redirect to the add.php page, where you can add new periods to the schedule-->
+<input type="hidden" name="add" value="schedule">
 <input type="submit" name="scheduleadd" value="Agregar Horario">
 </form>
 <form action="edit.php" name="scheduleedit" method="post"> <!-- redirect to the edit.php page, where you can edit the periods of the schedule -->

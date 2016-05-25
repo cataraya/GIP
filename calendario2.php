@@ -39,13 +39,19 @@ echo '</b> </font> &nbsp;&nbsp;<form action="calendario.php" method="post">
 <input type="submit" value="Ver otro mes">
 </form> </tr> </table>'; // redirect to calendario.php where you can choose an other month to diplay
 
+
+
+
+
+
 ?>
 
 <div align="right">
 <table>
 <tr>
 
-<form action="add.php" method="post">   <!-- redirect to the add.php page, where you can add new appointments -->
+<form action="add.php" method="post" >   <!-- redirect to the add.php page, where you can add new appointments -->
+<input type="hidden" name="add" value="calendar">
 <input type="submit" name="calendaradd" value="Agregar Evento">
 </form>
 <form action="edit.php" name="calendaredit" method="post"> <!-- redirect to the edit.php page, where you can edit the events of the calendar -->
