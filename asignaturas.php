@@ -17,7 +17,6 @@ $PAGE->set_heading($nombre);
 $PAGE->set_url($CFG->wwwroot.'/local/Minor/asignaturas.php');
 $PAGE->navbar->add($nombre);
 
-//$strmymoodle = get_string('helloworld');
 
 
 
@@ -26,17 +25,41 @@ echo $OUTPUT->header();
 include 'templates/header.php';
 // Actual content goes here
 
-echo "Planificación Adaptativa";
-echo "<br>";
 
-echo "Asignatura";
+
+echo "Elija su asignatura";
 echo "<br>";
 echo "<br>";
 echo "<br>";
+global $USER; //connection to user-moodle's database
+global $DB; //connection to moodle's database
+$userconnected= $USER->username;
+
+$activity= $DB->get_records_sql('SELECT id,activity FROM {activity1} GROUP BY user,activity',array('user'=>$userconnected));
+// $activity= $DB->get_records_('activity1',array('user'=>$userconnected));
+
 ?>
+
+
+	<form name="activity2" action="activity.php" method="post">
+	<select name="myact">
+	<?php 
+foreach ($activity as $activities)
+	{
+		$value=$activities->activity;
+	?>
+	<option value="<?php echo $value ?>" > <?php echo $activities->activity ?></option>
+	<?php 
+	}
+	?>
+	</select> 
+	<input type="submit" value="Ver"> 
+	</form>
+
+
+
 <html>
 <body>
-
 
 <br>
 <form action="calendario.php" method="post">
@@ -50,7 +73,6 @@ echo "<br>";
 <br>
 <form action="index.php" method="post">
 <input type="submit" value="Volver">
-
 </form>
 </body>
 </html>

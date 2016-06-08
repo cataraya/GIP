@@ -54,9 +54,6 @@ echo '</b> </font> &nbsp;&nbsp;<form action="calendario.php" method="post">
 <input type="hidden" name="add" value="calendar">
 <input type="submit" name="calendaradd" value="Agregar Evento">
 </form>
-<form action="edit.php" name="calendaredit" method="post"> <!-- redirect to the edit.php page, where you can edit the events of the calendar -->
-<input type="submit" value="Editar Calendario">
-</form>
 </tr>
 </table>
 </div>
