@@ -35,7 +35,7 @@ global $USER; //connection to user-moodle's database
 global $DB; //connection to moodle's database
 $userconnected= $USER->username;
 
-$activity= $DB->get_records_sql('SELECT id,activity FROM {activity1} GROUP BY user,activity',array('user'=>$userconnected));
+$activity= $DB->get_records_sql('SELECT id,activity FROM {calendar1} GROUP BY user,activity',array('user'=>$userconnected));
 // $activity= $DB->get_records_('activity1',array('user'=>$userconnected));
 
 ?>

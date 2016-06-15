@@ -50,6 +50,8 @@ $username= $DB->get_record('user', array('username'=>$userconnected)); //$userna
 echo "<br> <div align= 'right'> <font color='#1F968D' size=4 > ¡Hola  $username->firstname !</font><br><br><br> </div> "; //shows a mesaage next to the fist name of the
 //user connected
 
+
+
 ?>
 
 

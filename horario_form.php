@@ -38,7 +38,7 @@ class horario_form extends moodleform {
 	 * The form definition
 	 */
 	function definition () {
-		global $CFG, $USER, $OUTPUT;
+		global $DB, $CFG, $USER, $OUTPUT;
 		$mform = $this->_form;
 		$newevent = (empty($this->_customdata->event) || empty($this->_customdata->event->id));
 		$repeatedevents = (!empty($this->_customdata->event->eventrepeats) && $this->_customdata->event->eventrepeats>0);
@@ -47,27 +47,48 @@ class horario_form extends moodleform {
 
 
 		// Normal fields
-
+		$activities = $DB->get_records_sql(
+				'SELECT id,activity FROM {schedule} GROUP BY user,activity',
+				array('user'=>$USER->username));
+		$activitiesarray = array();
+		$activitiesarray[0] = 'Otra';
+		foreach($activities as $activity) {
+			$activitiesarray[$activity->id] = $activity->activity;
+		}
+		$mform->addElement('select', 'activity', 'Actividad', $activitiesarray);
+		
+		
+		
 		$mform->addElement('text', 'name', 'Actividad', 'size="50"');
-		$mform->addRule('name', get_string('required'), 'required');
+//		$mform->addRule('name', get_string('required'), 'required');
 		$mform->setType('name', PARAM_TEXT);
+		$mform->disabledIf('name', 'activity', 'neq', 0);
+		
+		
+		
+		$radioarray=array();
+		$radioarray[0] = $mform->createElement('radio', 'type', '', 'Asignatura', 1, $attributes);
+		$radioarray[1] = $mform->createElement('radio', 'type', '', 'Actividad', 2, $attributes);
+		$radioarray[2] = $mform->createElement('radio', 'type', '', 'Reunión', 3, $attributes);
+		$mform->addGroup($radioarray, 'radioar', 'Tipo Actividad', array(' '), false);
 	
+	
+		for($i=1;$i<=8;$i++){
 		$checkarray=array();
-		$checkarray[] = $mform->createElement('checkbox', 'ratingtime', '','Lunes',1, $attributes);
-		$checkarray[] = $mform->createElement('checkbox', 'ratingtime', '','Martes',2,$attributes);
-		$checkarray[] = $mform->createElement('checkbox', 'ratingtime', '','Miercóles',3, $attributes);
-		$checkarray[] = $mform->createElement('checkbox', 'ratingtime', '','Jueves',4, $attributes);
-		$checkarray[] = $mform->createElement('checkbox', 'ratingtime', '','Viernes',5, $attributes);
-		$checkarray[] = $mform->createElement('checkbox', 'ratingtime', '','Sábado',6, $attributes);
+		$checkarray[] = $mform->createElement('checkbox', 'dia'.$i.'L', '','Lunes',1, $attributes);
+		$checkarray[] = $mform->createElement('checkbox', 'dia'.$i.'M', '','Martes',2,$attributes);
+		$checkarray[] = $mform->createElement('checkbox', 'dia'.$i.'W', '','Miercóles',3, $attributes);
+		$checkarray[] = $mform->createElement('checkbox', 'dia'.$i.'J', '','Jueves',4, $attributes);
+		$checkarray[] = $mform->createElement('checkbox', 'dia'.$i.'V', '','Viernes',5, $attributes);
+		$checkarray[] = $mform->createElement('checkbox', 'dia'.$i.'S', '','Sábado',6, $attributes);
 
-		$mform->addGroup($checkarray, '1', 'Modulo 1', array(' '), false);
-		$mform->addGroup($checkarray, '2', 'Modulo 2', array(' '), false);
-		$mform->addGroup($checkarray, '3', 'Modulo 3', array(' '), false);
-		$mform->addGroup($checkarray, '4', 'Modulo 4', array(' '), false);
-		$mform->addGroup($checkarray, '5', 'Modulo 5', array(' '), false);
-		$mform->addGroup($checkarray, '6', 'Modulo 6', array(' '), false);
-		$mform->addGroup($checkarray, '6', 'Modulo 7', array(' '), false);
-		$mform->addGroup($checkarray, '6', 'Modulo 8', array(' '), false);
+		$mform->addGroup($checkarray, $i, 'Modulo '.$i, array(' '), false);
+		}
+		
+		$mform->addElement('hidden', 'add', 'schedule');
+		$mform->setType('add', PARAM_TEXT);
+		
+		
 		
 		$this->add_action_buttons(false, 'Agregar');
 	}
@@ -84,6 +105,11 @@ class horario_form extends moodleform {
 
 		$errors = parent::validation($data, $files);
 
+		if($data['activity'] == 0){
+			if(strlen($data['name']) < 3) {
+				$errors['name'] = 'Debe ingresar un nombre para la actividad';
+			}
+		}
 		if ($data['courseid'] > 0) {
 			if ($course = $DB->get_record('course', array('id'=>$data['courseid']))) {
 				if ($data['timestart'] < $course->startdate) {

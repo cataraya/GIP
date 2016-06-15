@@ -38,7 +38,7 @@ class calendario_form extends moodleform {
 	 * The form definition
 	 */
 	function definition () {
-		global $CFG, $USER, $OUTPUT;
+		global $CFG, $USER, $OUTPUT, $DB;
 		$mform = $this->_form;
 		$newevent = (empty($this->_customdata->event) || empty($this->_customdata->event->id));
 		$repeatedevents = (!empty($this->_customdata->event->eventrepeats) && $this->_customdata->event->eventrepeats>0);
@@ -51,20 +51,38 @@ class calendario_form extends moodleform {
 		$mform->addElement('text', 'name', 'Evento', 'size="50"');
 		$mform->addRule('name', get_string('required'), 'required');
 		$mform->setType('name', PARAM_TEXT);
-	
 		
 		$radioarray=array();
-		$radioarray[] = $mform->createElement('radio', 'type', '', 'Prueba', 1, $attributes);
-		$radioarray[] = $mform->createElement('radio', 'type', '', 'Control', 2, $attributes);
-		$radioarray[] = $mform->createElement('radio', 'type', '', 'Reunión', 3, $attributes);
-		$mform->addGroup($radioarray, 'radioar', 'Tipo Actividad', array(' '), false);
+		$radioarray[0] = $mform->createElement('radio', 'type', '', 'Prueba', 1, $attributes);
+		$radioarray[1] = $mform->createElement('radio', 'type', '', 'Control', 2, $attributes);
+		$radioarray[2] = $mform->createElement('radio', 'type', '', 'Reunión', 3, $attributes);
+		$mform->addGroup($radioarray, 'radioar', 'Tipo Evento', array(' '), false);
+		
+		$activities = $DB->get_records_sql(
+				'SELECT id,activity FROM {calendar1} GROUP BY user,activity',
+				array('user'=>$USER->username));
+		$activitiesarray = array();
+		$activitiesarray[0] = 'Otra';
+		foreach($activities as $activity) {
+			$activitiesarray[$activity->id] = $activity->activity;
+		}
+		$mform->addElement('select', 'activity', 'Actividad', $activitiesarray);
+		
+		
+		$mform->addElement('text', 'name', 'Actividad', 'size="50"');
+		//		$mform->addRule('name', get_string('required'), 'required');
+		$mform->setType('name', PARAM_TEXT);
+		$mform->disabledIf('name', 'activity', 'neq', 0);
+		
 
 	    $mform->addElement('editor', 'description', 'Descripción Evento', null, $this->_customdata->event->editoroptions);
-        $mform->setType('description', PARAM_RAW);
+        $mform->setType('description', PARAM_TEXT);
 
-		$mform->addElement('date_time_selector', 'timestart', 'Fecha');
+        $mform->addElement('hidden', 'add', 'calendar');
+        $mform->setType('add', PARAM_TEXT);
+        
+		$mform->addElement('date_selector', 'timestart', 'Fecha');
 		$mform->addRule('timestart', get_string('required'), 'required');
-
 
 		$this->add_action_buttons(false, 'Agregar');
 	}

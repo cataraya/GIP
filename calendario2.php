@@ -85,7 +85,7 @@ global $DB; //connection to moodle's database
 $userconnected= $USER->username;// variable that save the username of the user conneted
 
 //query to calendar1 table of Moodle database, where the user is the one connected and the month and year are the one choosen before
-$calendar= $DB->get_record('calendar1', array('week'=>$i,'day'=>$j,'user'=>$userconnected,'month'=>$choosenmonth, 'year'=>$choosenyear));
+$calendar= $DB->get_record('calendar1', array('week'=>$i,'day'=>$j,'user'=>$userconnected,'month'=>$choosenmonth, 'year'=>$choosenyear1[$choosenyear-1]));
 
 //variable that save what type of event is the event shown
 $type= $calendar->typeofevent; 

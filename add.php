@@ -65,28 +65,32 @@ if(	$data= $calendardata->get_data()) {
 			return $week_num;
 		}
 		
-		echo "<br>";
-		echo	$event= $data->name;
-		echo "<br>";
-		echo	 $typeofevent= $data->radioar;
-		echo "<br>";
-		echo	 $desciption= $data->description;
-		echo "<br>";
-		echo    $date1= $data->timesart;
-		echo "<br>";
-		echo	$userconected= $USER->username;
-		echo "<br>";
-		echo	$numberofday =  date("d",$date1);
-		echo "<br>";
-		echo	$day  = date("w",$date1);
-		echo "<br>";
-		echo	$week = getWeeks($date1);
-		echo "<br>";
-		echo	$month= date("n",$date1);
-		echo "<br>";
-		echo	$year = date("Y",$date1);
-		echo "<br>";
-		echo	$activity = "perro";
+	
+
+		
+		if($data->radioar == 0)
+		{
+			$typeofevent= 1;
+		}
+		elseif ($data-radioar == 1)
+		{
+			$typeofevent= 2;
+		}
+		else
+		{
+			$typeofevent= 3;
+		}
+		
+	$event= $data->name;
+	$desciption= $data->description;
+	$date1= $data->timesart;
+	$userconected= $USER->username;
+    $numberofday =  date("d",$date1);
+	$day  = date("w",$date1);
+	$week = getWeeks($date1);
+	$month= date("n",$date1);
+	$year = date("Y",$date1);
+	$activity = "";
 		
 		$calendar = new stdClass();
 		$calendar->week = $week;
@@ -102,9 +106,6 @@ if(	$data= $calendardata->get_data()) {
 		
 		$DB->insert_record('calendar1', $calendar);
 		
-		$activiy1 = new stdClass();
-		$activiy1->acivity = $activity;
-		$DB->insert_record('activity', $activiy1);
 		
 		
 		
@@ -121,28 +122,76 @@ if(	$data= $calendardata->get_data()) {
 elseif ($add== "schedule")
 {
 
-	$mform = new horario_form ();
-	$mform->display();
+
 	
+	$scheduledata = new horario_form ();
+	
+	
+	if(	$data= $scheduledata->get_data()) {
+	
+		if (isset ($data->activity))
+	
+		{
+		//	var_dump($data);
+			/* if($data->activity == 0) {
+				$activity= $data->name;
+			} else{
+				$act = $DB->get_record('schedule', array('id'=>$data->activity));
+				$activity = $act->activity;
+				
+			}
+			
+			*/
+			
+			if($data->radioar == 0)
+			{
+				$type= 1;
+			} 
+			elseif ($data->radioar == 1)
+			{
+				$type= 2;
+			}
+			else 
+			{
+				$type= 3;
+			}
+			
+			
+			$userconected= $USER->username;
+			
+			$period= "3";
+			$day= "3";
+			
+			
+			/*echo "<br>";
+			echo	$activity;
+			echo "<br>";
+			echo	$userconected;
+			echo $type;
+			*/
+
+
+	$schedule = new stdClass();
 	$schedule->period = $period;
 	$schedule->day = $day;
-	$schedule->user = $userconnected;
-	$schedule->typeofactivity = $typeofactivity;
+	$schedule->user = $userconected;
+	$schedule->typeofactivity = $type;
 	$schedule->acivity = $activity;
 	
+	$lastinsert= $DB->insert_record('schedule', $schedule);
+	echo "<form action='horario.php' method='post'><input type='submit' value='Horario'></form>";
 	
-	$DB->insert_record('schedule', $schedule);
-	
-	$activiy1 = new stdClass();
-	$activiy1->acivity = $activity;
-	$DB->insert_record('activity', $activiy1);
 	
 	
 	
 	echo "Horario agregado con éxito <br><br>";
 	echo "<form action='horario.php' method='post'><input type='submit' value='Horario'></form>";
-	
-
+		
+		}
+	}
+	else {
+		$scheduledata ->display();
+	}
 	
 }
 

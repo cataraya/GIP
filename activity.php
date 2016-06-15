@@ -28,14 +28,26 @@ global $DB; //connection to moodle's database
 
 
 $userconected= $USER->username; // variable that save the username of the user conneted
+
 $choosenact = $_POST["myact"];
 echo $choosenact;
 
-$calendar= $DB->get_records('calendar1', array('user'=>$userconnected,'activity'=>$choosenact));
 
-echo $calendar->event;
+
+$calendar= $DB->get_record('calendar1', array('user'=>$userconected,'activity'=>$choosenact));
+
+$d= $calendar->numberofday;
+$m= $calendar->month;
+$y= $calendar->year;
+
+$d= mktime( 0, 0, 0, $d, $m, $y);
+$fecha=   date("d-m-Y", $d);
+
+
 
 ?>
+<br>
+<br>
 <table style="width:100%" border="1">
   <tr> <!-- first row: show the days of the week -->
     <td>Tipo de evento</td> 
@@ -46,15 +58,12 @@ echo $calendar->event;
   
  
   <?php  
-  
-//for ($i=1; $i<3; $i++)
+  //$count= $DB->count_records('calendar1', array('user'=>$userconected,'activity'=>$choosenact)); 
+//for ($i=1; $i<$count+1; $i++)
 //{
-	echo "<tr> <td>Prueba</td> 
-    <td>24/08/2016</td> 
-    <td>Temario: toda la materia</td> </tr>
-		<tr> <td>Control</td> 
-    <td>12/09/2016</td> 
-    <td>Leer solo dos capítulos del libro</td> </tr>";
+	echo "<tr> <td> $calendar->event </td> 
+    <td>$fecha</td> 
+    <td> $calendar->information </td> </tr>";
 //}
    
           
