@@ -5,7 +5,9 @@ calendario
 horario
 Then, save the file calendario_form.php in the folder "calendario" and horario_form.php in the folder "horario".
 
-Second, create a folder with the name minor in .../htdocs/Moodle30/local, and save all the other files there.
+Second, create a folder with the name minor in .../htdocs/Moodle30/local, and save most of the other files there (except for log.php,	services.php, install.php, upgrade.php, access.php, install.xml)
+
+Third, create a folder with the name db in .../htdocs/Moodle30/local/minor, and save the following files: log.php,	services.php, install.php, upgrade.php, access.php, install.xml.
 
 
 Create in Moodle database 3 tables:
